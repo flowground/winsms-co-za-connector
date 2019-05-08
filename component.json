@@ -1,0 +1,209 @@
+{
+    "title": "WINSMS",
+    "description": "WinSMS RESTful API",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/winsms.co.za/1.0.0/swagger.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://www.winsms.co.za/api/rest/v1",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "APIKeyHeader": {
+                "label": "AUTHORIZATION (APIKeyHeader)",
+                "viewClass": "TextFieldView",
+                "note": "Valid API Key supplied by WinSMS"
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "getCreditBalance": {
+            "main": "./lib/actions/getCreditBalance.js",
+            "title": "Get your current WinSMS credit balance",
+            "description": "Get the current remaining credit balance for the account.\n\n***Note*** - The credit balance is expressed as a value with a single decimal place.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getCreditBalance.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "transferCredits": {
+            "main": "./lib/actions/transferCredits.js",
+            "title": "Transfer credits between main and sub accounts.",
+            "description": "Transfer credits between accounts.\n- From Main account to Sub account.\n\n- From Sub account to Main account.\n\n- From Sub account to another Sub account.\n\nYour WinSMS account number and sub account number/s can be obtained by logging in to the WinSMS Client Zone (www.winsms.co.za/cz) with the main account's credentials.\n\nThe main account number is on the home tab and the sub account numbers are under the sub accounts tab.\n\nAccount numbers should be submitted as integers. Do not add the 'W' prefix.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/transferCredits.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "getShortCodeMessages": {
+            "main": "./lib/actions/getShortCodeMessages.js",
+            "title": "Get a list of incoming short/long code messages\n",
+            "description": "***Only available to users with a [WinSMS Short/Long Code](https://support.winsms.co.za/winsms-long-short-code-system/).***\nGet a list of all incoming short/long code messages received by the account.\n\nOnly the first 100 incoming short/long code messages will be returned if no ***offset*** and ***limit*** parameters are specified.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getShortCodeMessages.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "getIncomingMessages": {
+            "main": "./lib/actions/getIncomingMessages.js",
+            "title": "Get a list of incoming SMS messages",
+            "description": "Get a list of all incoming SMS messages received by the account.\n\nOnly the first 100 incoming messages will be returned if no ***offset*** and ***limit*** parameters are specified.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getIncomingMessages.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "getOptoutMessages": {
+            "main": "./lib/actions/getOptoutMessages.js",
+            "title": "Get a list of incoming opt-out SMS messages",
+            "description": "Get a list of all opt-out SMS messages received by the account, as well as all manually added opt-out numbers.<br>",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getOptoutMessages.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "smsSend": {
+            "main": "./lib/actions/smsSend.js",
+            "title": "Send SMS messages",
+            "description": "Submit 1 or more SMS messages to be sent by WinSMS. Maximum 1000 recipients per request.\n\nThe SMS message text can be a maximum of 918 characters long. If you are submitting a message longer than 160 characters, you should change the value of ***maxSegments***.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/smsSend.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "smsStatus": {
+            "main": "./lib/actions/smsStatus.js",
+            "title": "Get SMS delivery statuses",
+            "description": "Get a list of previously submitted SMS message delivery statuses.\n\nPost an array of API Message Ids received from the ***/sms/outgoing/send*** endpoint.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/smsStatus.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "getScheduledMessages": {
+            "main": "./lib/actions/getScheduledMessages.js",
+            "title": "Get a list of scheduled SMS messages",
+            "description": "Get a list of all scheduled SMS messages that have not yet been sent.\n\nOnly the first 100 scheduled messages will be returned if no ***offset*** and ***limit*** parameters are specified.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getScheduledMessages.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "deleteScheduledMessages": {
+            "main": "./lib/actions/deleteScheduledMessages.js",
+            "title": "Delete scheduled SMS messages and refund credits",
+            "description": "Delete a list of previously scheduled SMS messages that have not yet been sent.\n\nCredits originally deducted for each SMS message will be refunded to your account upon successful deletion.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/deleteScheduledMessages.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "getSubAccounts": {
+            "main": "./lib/actions/getSubAccounts.js",
+            "title": "Get a list of all Sub Accounts.",
+            "description": "Get a list of all the Sub Accounts owned by the Main Account.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getSubAccounts.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

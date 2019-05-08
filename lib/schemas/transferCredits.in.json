@@ -1,0 +1,36 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "example": {
+                "receivingAccountNumber": 10345,
+                "sendingAccountNumber": 7564,
+                "transferQuantity": 100
+            },
+            "properties": {
+                "receivingAccountNumber": {
+                    "description": "The WinSMS account number of the account to which credits will be added.",
+                    "example": 10345,
+                    "type": "integer"
+                },
+                "sendingAccountNumber": {
+                    "description": "The WinSMS account number of the account from which credits will be deducted.",
+                    "example": 7564,
+                    "type": "integer"
+                },
+                "transferQuantity": {
+                    "description": "The number of credits to transfer from the sending account to the receiving account.",
+                    "example": 100,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "receivingAccountNumber",
+                "sendingAccountNumber",
+                "transferQuantity"
+            ],
+            "title": "creditTransferDetails",
+            "type": "object"
+        }
+    }
+}

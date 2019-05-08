@@ -1,0 +1,75 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "example": {
+                "maxSegments": 3,
+                "message": "Happy holidays from all at TelAmeriCorp.",
+                "recipients": [
+                    {
+                        "clientMessageId": "clientId-3023",
+                        "mobileNumber": "27444444444"
+                    },
+                    {
+                        "mobileNumber": "27555555555"
+                    },
+                    {
+                        "clientMessageId": "clientId-3024",
+                        "mobileNumber": "276666666666"
+                    }
+                ],
+                "scheduledTime": 201712251430
+            },
+            "properties": {
+                "maxSegments": {
+                    "description": "***Optional*** - The maximum [GSM Encoded segment count](\"https://support.winsms.co.za/rest/GSM\") that the message is allowed to utilise.\n\nThis defaults to 1, allowing for a maximum GSM Encoded message length of 160 characters.\n\nThe maximum value is 6, which allows for a GSM Encoded message length of 918 characters.\n\nIf you intend to send a message longer than 160 characters, this value should be specified.\n",
+                    "example": 3,
+                    "maximum": 6,
+                    "minimum": 1,
+                    "type": "integer"
+                },
+                "message": {
+                    "description": "The SMS text to be sent.",
+                    "example": "Happy holidays from all at TelAmeriCorp.",
+                    "type": "string"
+                },
+                "recipients": {
+                    "description": "An array of messageRecipientDetails objects.",
+                    "items": {
+                        "example": "{\"mobileNumber\":\"27444444444\",\"clientMessageId\":\"clientId-3023\"}",
+                        "properties": {
+                            "clientMessageId": {
+                                "description": "***Optional*** - A parameter to identify an individual SMS message recipient on your system. The clientMessageId parameter is NOT saved by the WinSMS API. \n\nThe value of the clientMessageId parameter is returned in the ***submittedRecipientResult*** object of the response, allowing you to match a sent message to a returned message result status.\n",
+                                "example": "clientId-3023",
+                                "type": "string"
+                            },
+                            "mobileNumber": {
+                                "description": "A recipient mobile number, using the international E164 (without the plus) format.",
+                                "example": "27444444444",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "mobileNumber"
+                        ],
+                        "type": "object"
+                    },
+                    "maxItems": 1000,
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "scheduledTime": {
+                    "description": "***Optional*** - The date and time that an SMS should be delivered. If not specified, or is set for a date/time prior to the current date/time, the SMS message will be sent immediately.\n\nIf specified, this value should have the format YYYYMMDDHHmm.\n",
+                    "example": 201712251430,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "message",
+                "recipients"
+            ],
+            "title": "newMessageDetails",
+            "type": "object"
+        }
+    }
+}
